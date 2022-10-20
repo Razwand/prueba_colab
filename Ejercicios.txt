@@ -1,0 +1,81 @@
+Question 1: Can you get all data about movies?
+select * FROM movies
+--------------------------
+
+Question 2: How do you get all data about directors?
+select * FROM directors
+--------------------------
+
+Question 3: Check how many movies are present in iMDB.
+SELECT count (id) [siempre mejor contar IDs para estar seguros de evitar duplicidad de valores]
+FROM movies 
+--------------------------
+
+Question 4: Find these 3 directors: James Cameron ; Luc Besson ; John Woo
+SELECT name FROM directors
+WHERE name = 'James Cameron' or name = 'Luc Besson' or name =  'John Woo'
+--------------------------
+
+Question 5: Find all directors with name starting with Steven.
+SELECT name FROM directors
+WHERE name LIKE 'Steven%'
+--------------------------
+
+Question 6: Count female directors.
+SELECT count (id) FROM directors
+WHERE gender = 1
+--------------------------
+
+Question 7: Find the name of the 10th first women directors?
+SELECT name FROM directors
+WHERE gender = 1 
+LIMIT 10
+--------------------------
+
+Question 8: What are the 3 most popular movies?
+SELECT original_title, popularity FROM movies
+ORDER BY popularity DESC
+LIMIT 3
+--------------------------
+
+Question 9: What are the 3 most bankable movies?
+SELECT original_title, revenue FROM movies
+ORDER BY revenue DESC
+LIMIT 3
+--------------------------
+
+Question 10: What is the most awarded average vote since the January 1st, 2000?
+SELECT original_title, release_date, vote_average
+FROM movies
+WHERE release_date >= '2000-01-01'
+ORDER BY vote_average DESC
+LIMIT 1
+--------------------------
+
+Question 11: Which movie(s) were directed by Brenda Chapman?
+SELECT movies.original_title, directors.name
+FROM movies
+LEFT JOIN directors
+ON movies.director_id = directors.id
+WHERE directors.name = 'Brenda Chapman'
+--------------------------
+
+Question 12: Whose director made the most movies?
+SELECT director_id,COUNT(director_id) AS `value_occurrence` 
+FROM movies
+GROUP BY director_id
+ORDER BY `value_occurrence` DESC
+LIMIT 1;
+
+SELECT directors.name FROM 
+(
+SELECT director_id,COUNT(director_id) AS `value_occurrence` 
+FROM movies
+GROUP BY director_id
+ORDER BY `value_occurrence` DESC
+) as 'A'
+ LEFT JOIN directors on A.director_id = directors.id
+--------------------------
+
+Question 13: Whose director is the most bankable?
+
